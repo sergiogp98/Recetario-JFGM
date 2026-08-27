@@ -22,14 +22,11 @@ jobs:
         with:
           version: 2.19
 
-      - uses: docker://pandoc/core:3.8
-        with:
-          args: 
-
       - name: Convert .docx files to Markdown
         run: |
           mkdir -p md
-
+          
+          table_of_content="# Recetario"
           for file in docx/*.docx; do
             name="$(basename "${file%.docx}")"
 
@@ -39,15 +36,18 @@ jobs:
               --wrap=none \
               --output="md/${name}.md" \
               "$file"
+
+            table_of_content="${table_of_content}\n- [${name}](md/${name}.md)"
           done
+          printf '%s\n' "$table_of_content" > README.md
       - name: Commit generated Markdown files only when changed
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add md
+          git add md README.md
 
-          if git diff --cached --quiet -- md; then
+          if git diff --cached --quiet -- md README.md; then
             echo "No new or updated Markdown files detected."
           else
             git commit -m "Convert DOCX files to Markdown"
