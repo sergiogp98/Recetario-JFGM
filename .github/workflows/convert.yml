@@ -17,30 +17,29 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Install
+        uses: pandoc/actions/setup@v1
+        with:
+          version: 2.19
+
+      - uses: docker://pandoc/core:3.8
+        with:
+          args: 
+
       - name: Convert .docx files to Markdown
-        shell: bash
         run: |
-          set -euo pipefail
           mkdir -p md
-          shopt -s nullglob
 
           for file in docx/*.docx; do
-            [ -f "$file" ] || continue
-
             name="$(basename "${file%.docx}")"
-            output="md/${name}.md"
 
-            docker run --rm \
-              -v "$PWD:/data" \
-              -w /data \
-              pandoc/core:3.5 \
-              pandoc "$file" \
-                --from=docx \
-                --to=gfm \
-                --wrap=none \
-                --output="$output"
+            pandoc \
+              --from=docx \
+              --to=gfm \
+              --wrap=none \
+              --output="md/${name}.md" \
+              "$file"
           done
-
       - name: Commit generated Markdown files only when changed
         run: |
           git config --global user.name "github-actions[bot]"
