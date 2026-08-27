@@ -24,21 +24,21 @@ jobs:
 
       - name: Convert .docx files to Markdown
         run: |
-          mkdir -p md
+          mkdir -p html
           
-          table_of_content="# Recetario"
+          table_of_content=""
           for file in docx/*.docx; do
             name="$(basename "${file%.docx}")"
             encoded_name="${name// /%20}"
 
             pandoc \
               --from=docx \
-              --to=gfm \
-              --wrap=none \
-              --output="md/${name}.md" \
+              --to=html \
+              --standalone \
+              --output="html/${name}.html" \
               "$file"
 
-            table_of_content=$(printf '%s\n- [%s](md/%s.md)' \
+            table_of_content=$(printf '%s\n- [%s](html/%s.html)' \
               "$table_of_content" \
               "$name" \
               "$encoded_name")
@@ -49,11 +49,11 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add md README.md
+          git add html README.md
 
-          if git diff --cached --quiet -- md README.md; then
-            echo "No new or updated Markdown files detected."
+          if git diff --cached --quiet -- html README.md; then
+            echo "No new or updated HTML files detected."
           else
-            git commit -m "Convert DOCX files to Markdown"
+            git commit -m "Convert DOCX files to HTML"
             git push
           fi
