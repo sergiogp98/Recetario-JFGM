@@ -272,6 +272,7 @@
 - [Sardinas sobre tomate Kumato](html/Sardinas%20sobre%20tomate%20Kumato.html)
 - [Setas a la Cazuela](html/Setas%20a%20la%20Cazuela.html)
 - [Setas rellenas](html/Setas%20rellenas.html)
+- [Setas](html/Setas.html)
 - [Solomillo a la cerveza](html/Solomillo%20a%20la%20cerveza.html)
 - [Solomillo al horno facil](html/Solomillo%20al%20horno%20facil.html)
 - [Solomillo al horno](html/Solomillo%20al%20horno.html)
@@ -304,4 +305,3 @@
 - [Trenza de hojaldre](html/Trenza%20de%20hojaldre.html)
 - [Ventresca con patatas](html/Ventresca%20con%20patatas.html)
 - [Yuca](html/Yuca.html)
-- [setas](html/setas.html)
