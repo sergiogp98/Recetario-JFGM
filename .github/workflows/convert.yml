@@ -22,7 +22,7 @@ jobs:
         with:
           version: 2.19
 
-      - name: Convert .docx files to Markdown
+      - name: Convert .docx files to HTML
         run: |
           mkdir -p html
           
