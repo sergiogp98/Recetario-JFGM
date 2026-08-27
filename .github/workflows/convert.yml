@@ -37,7 +37,7 @@ jobs:
               --output="md/${name}.md" \
               "$file"
 
-            table_of_content="${table_of_content}\n- [${name}](md/${name}.md)"
+            table_of_content=$(printf '%s\n- [%s](md/%s.md)' "$table_of_content" "$name" "$name"
           done
           printf '%s\n' "$table_of_content" > README.md
       - name: Commit generated Markdown files only when changed
