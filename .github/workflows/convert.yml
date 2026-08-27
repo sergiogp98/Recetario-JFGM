@@ -29,6 +29,7 @@ jobs:
           table_of_content="# Recetario"
           for file in docx/*.docx; do
             name="$(basename "${file%.docx}")"
+            encoded_name="${name// /%20}"
 
             pandoc \
               --from=docx \
@@ -37,7 +38,10 @@ jobs:
               --output="md/${name}.md" \
               "$file"
 
-            table_of_content=$(printf '%s\n- [%s](md/%s.md)' "$table_of_content" "$name" "$name")
+            table_of_content=$(printf '%s\n- [%s](md/%s.md)' \
+              "$table_of_content" \
+              "$name" \
+              "$encoded_name")
           done
           printf '%s\n' "$table_of_content" > README.md
       - name: Commit generated Markdown files only when changed
